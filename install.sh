@@ -32,22 +32,30 @@ sudo curl -L "https://github.com/docker/compose/releases/download/v2.19.0/docker
 sudo chmod +x /usr/local/bin/docker-compose
 
 # 6. Clonar o repositório do seu projeto (opcional, se o usuário ainda não tiver o projeto)
-echo "Clonando o repositório do projeto..."
+echo "Baixando App"
 git clone https://github.com/felipetadeudev/teste-sh.git
 
-# 7. Acessar o diretório do projeto
-cd teste-sh
+# 7. Criar a rede traefik_proxy (se não existir)
+echo "Verificando se a rede traefik_proxy existe..."
+if ! docker network inspect traefik_proxy >/dev/null 2>&1; then
+    echo "Criando a rede traefik_proxy..."
+    sudo docker network create traefik_proxy
+else
+    echo "A rede traefik_proxy já existe."
+fi
 
+# 8. Acessar o diretório do projeto
+cd teste-sh
 sudo chmod +x wait-for-postgres.sh
 
-# 8. Solicitar o domínio ao usuário
+# 9. Solicitar o domínio ao usuário
 echo "Digite o domínio que você deseja usar para o seu aplicativo (ex: meuaplicativo.com): "
 read DOMINIO
 
-# 9. Substituir o domínio no docker-compose.yml
+# 10. Substituir o domínio no docker-compose.yml
 sed -i "s/seu_dominio.com/$DOMINIO/g" docker-compose.yml
 
-# 10. Iniciar a aplicação com o Docker Compose
+# 11. Iniciar a aplicação com o Docker Compose
 echo "Iniciando a aplicação..."
 sudo docker-compose up -d
 
