@@ -48,15 +48,26 @@ fi
 cd teste-sh
 sudo chmod +x wait-for-postgres.sh
 
+# 8. Criar o diretório letsencrypt (para os certificados SSL)
+echo "Criando diretório para certificados..."
+mkdir -p letsencrypt
+
 # 9. Solicitar o domínio ao usuário
-echo "Digite o domínio que você deseja usar para o seu aplicativo (ex: meuaplicativo.com): "
+echo "Digite o domínio que você deseja usar para o seu aplicativo (ex: meuaplicativo.com):"
 read DOMINIO
 
 # 10. Substituir o domínio no docker-compose.yml
 sed -i "s/seu_dominio.com/$DOMINIO/g" docker-compose.yml
 
-# 11. Iniciar a aplicação com o Docker Compose
+# 11. Solicitar o e-mail para o Let's Encrypt
+echo "Digite seu endereço de e-mail para o Let's Encrypt:"
+read EMAIL
+
+# 12. Substituir o e-mail no docker-compose.yml
+sed -i "s/seu_email@example.com/$EMAIL/g" docker-compose.yml
+
+# 13. Iniciar a aplicação com o Docker Compose
 echo "Iniciando a aplicação..."
 sudo docker-compose up -d
 
-echo "Instalação concluída! Acesse seu aplicativo em http://$DOMINIO"
+echo "Instalação concluída! Acesse seu aplicativo em https://$DOMINIO" 
