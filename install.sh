@@ -63,8 +63,8 @@ sed -i "s/seu_dominio.com/$DOMINIO/g" docker-compose.yml
 echo "Digite seu endereço de e-mail para o Let's Encrypt:"
 read EMAIL
 
-# 12. Substituir o e-mail no docker-compose.yml
-sed -i "s/seu_email@example.com/$EMAIL/g" docker-compose.yml
+# 12. Substituir o e-mail no docker-compose.yml (correção aqui)
+sed -i "s/--certificatesresolvers.letsencrypt.acme.email=seu_email@example.com/--certificatesresolvers.letsencrypt.acme.email=$EMAIL/g" docker-compose.yml
 
 # 13. Iniciar a aplicação com o Docker Compose
 echo "Iniciando a aplicação..."
